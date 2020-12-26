@@ -1,0 +1,25 @@
+﻿.grid {
+    width: 100%;
+    overflow: hidden;
+    table-layout: fixed;
+    height: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.table-scroll{
+   
+}
+
+
+table th, td {
+    border-bottom: 1px solid #bbbbbb;
+    padding: 10px 16px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+table tbody tr:nth-child(odd) {
+    background-color: #e5e5e5;
+}
