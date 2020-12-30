@@ -1,0 +1,74 @@
+﻿.m-dialog {
+    color: #000000;
+   
+}
+
+    .m-dialog .dialog-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: black;
+        z-index: 999;
+        opacity: 0.5;
+    }
+
+    .m-dialog .dialog-content {
+        padding: 24px;
+        position: absolute;
+        width: 800px;
+        height: 600px;
+        background-color: #ffffff;
+        z-index: 1000;
+        top: calc((100vh - 600px)/2);
+        left: calc(50% - 400px);
+        border-radius: 5px;
+    }
+
+    .m-dialog .dialog-header {
+        display: flex;
+    }
+
+        .m-dialog .dialog-header .dialog-header-close {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+
+            .m-dialog .dialog-header .dialog-header-close button {
+                width: 40px;
+                height: 40px;
+                border-radius: 0 0 0 5px;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                background-image: url('/content/icon/x.svg');
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 16px;
+                opacity: 0.7;
+            }
+
+                .m-dialog .dialog-header .dialog-header-close button:hover {
+                    background-color: #cccccc;
+                    border-radius: 5px;
+                }
+/*Tiêu đề của dialog*/
+    .m-dialog .dialog-header .dialog-header-title{
+        font-size: 20px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+/*thông tin form*/
+.dialog-infor{
+    display: flex;
+    width: 100%;
+}
+.dialog-infor-box{
+    flex: 1;
+}
+    .dialog-infor-box input {
+        padding: 10px 42px;
+    }
