@@ -9,3 +9,11 @@
     background-repeat: no-repeat;
     background-position: 16px center;
 }
+
+.icon-save {
+    width: 16px;
+    height: 16px;
+    background-image: url('/content/icon/document-online.png');
+    background-size: cover;
+}
+

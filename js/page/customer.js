@@ -1,5 +1,13 @@
 ﻿$(document).ready(function () {
     new CustomerJS();
+    //dialogDetail = $(".m-dialog").dialog({
+    //    autoOpen: false,
+    //    fluid: true,
+    //    minWidth: 700,
+    //    resizable: true,
+    //    positon: ({ my: "center", at: "center", of: wind }),
+    //    modal: true,
+    //});
 });
 
 /**

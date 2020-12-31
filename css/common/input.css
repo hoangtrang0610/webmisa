@@ -12,3 +12,7 @@ input::placehoder{
 .input-search{
     padding-left: 40px;
 }
+
+input[type="date"] {
+    padding: 8px 0 !important;
+}
