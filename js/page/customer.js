@@ -5,7 +5,7 @@
     //    fluid: true,
     //    minWidth: 700,
     //    resizable: true,
-    //    positon: ({ my: "center", at: "center", of: wind }),
+    //    positon: ({ my: "center", at: "center", of: windown }),
     //    modal: true,
     //});
 });

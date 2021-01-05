@@ -51,9 +51,26 @@ class BaseJS {
             $.each(inputValidates, function (index, input) {
                 $(input).trigger('blur');
             })
+            var inputNotValids = $('input[validate="false"]');
+            if (inputNotValids && inputNotValids.length > 0) {
+                alert("Dữ liệu không hợp lệ vui lòng kiểm tra lại");
+                inputNotValids[0].focus();
+                return;
+            }
 
 
             //thu thập thông tin dữ liệu được nhập--> built thành object
+            var customer = {
+                "CustomerCode": $('#txtCustomerCode').val(),  
+                "FullName": $('#txtFullName').val(),
+                "Address": $('#txtAddress').val(),
+                "DateOfBirth": $('#dtDateOfBirth').val(),
+                "Email": $('#txtEmail').val(),
+                "PhoneNumber": $('#txtCustomerCode').val(),
+                "CustomerGroupId": $('#txtPhoneNumber').val(),
+                "MemberCardCode": $('#txtMemberCardCode').val()
+            }
+            console.log(customer);
 
             //gọi service tương ứng thực hiện lưu dữ liệu
 
@@ -82,9 +99,11 @@ class BaseJS {
                 // this.classList.add("txtCustomerCode");
                 $(this).addClass('border-red');
                 $(this).attr('title', 'Trường này không được phép để trống');
+                $(this).attr("validate", false);
             }
             else {
                 $(this).removeClass('border-red');
+                $(this).attr("validate", true);
             }
 
         })
