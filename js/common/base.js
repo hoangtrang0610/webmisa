@@ -1,18 +1,16 @@
-﻿
-
-
-
-class BaseJS {
+﻿class BaseJS {
     constructor() {
-        this.getDataUrl = null;
-        this.setDataUrl();
+        this.host = "http://api.manhnv.net";
+        this.apiRouter = null;
+        this.setApiRouter();
+        this.initEvents();
         this.loadData();
-        this.initEvents()
     }
 
-    setDataUrl() {
+    setApiRouter() {
 
     }
+
 
     /**
      * khởi tạo tất cả sự kiện cho các button 
@@ -22,8 +20,34 @@ class BaseJS {
         var me = this;
         //sự kiện click khi nhấn thêm mới:
         $('#btnAdd').click(function () {
-            //hiển thị dialog thông tin chi tiết 
-            $('#dialog').css('display', ' block');
+            try {
+                me.FormMode = 'Add';
+                //hiển thị dialog thông tin chi tiết 
+                $('#dialog').css('display', ' block');
+                $('input').val(null);
+                //load dữ liệu cho các combobox 
+                var select = $('select#cbxCustomerGroup');
+                select.empty();
+                //lấy dữ liệu nhóm khách hàng:
+                $('.loading').show();
+                $.ajax({
+                    url: me.host + "/api/customergroups",
+                    method: "GET"
+                }).done(function (res) {
+                    if (res) {
+                        console.log(res);
+                        $.each(res, function (index, obj) {
+                            var option = $(`<option value="${obj.CustomerGroupId}">${obj.CustomerGroupName}</option>`);
+                            select.append(option);
+                        })
+                    }
+                    $('.loading').hide();
+                }).fail(function (res) {
+                    $('.loading').hide();
+                })
+            } catch (e) {
+                console.log(e);
+            }
         })
 
         //sự kiện khi ấn close
@@ -60,19 +84,35 @@ class BaseJS {
 
 
             //thu thập thông tin dữ liệu được nhập--> built thành object
-            var customer = {
-                "CustomerCode": $('#txtCustomerCode').val(),  
-                "FullName": $('#txtFullName').val(),
-                "Address": $('#txtAddress').val(),
-                "DateOfBirth": $('#dtDateOfBirth').val(),
-                "Email": $('#txtEmail').val(),
-                "PhoneNumber": $('#txtCustomerCode').val(),
-                "CustomerGroupId": $('#txtPhoneNumber').val(),
-                "MemberCardCode": $('#txtMemberCardCode').val()
-            }
-            console.log(customer);
+            // lấy tất cả các control nhập liệu
+            var inputs = $('input[fieldName], select[fieldName]');
+            var entity = {};
+            $.each(inputs, function (index, input) {
+                var propertyName = $(this).attr('fieldname');
+                var value = $(this).val();
+                //Check với trường hợp input là radio, thì chỉ lấy value của input có attribute checked:
+                if ($(this).attr('type') == "radio") {
+                    if (this.checked) {
+                        entity[propertyName] = value;
+                    }
+                } else {
+                    entity[propertyName] = value;
+                }
+            })
 
             //gọi service tương ứng thực hiện lưu dữ liệu
+            $.ajax({
+                url: me.host + me.apiRouter,
+                method: 'POST',
+                data: JSON.stringify(entity),
+                contentType: 'application/json'
+            }).done(function (res) {
+                alert("thêm thành công");
+                $('#dialog').css('display', ' none');
+                me.loadData();
+            }).fail(function (res) {
+                console.log(res);
+            })
 
             //sau khi lưu thành công thì: 
 
@@ -80,11 +120,44 @@ class BaseJS {
 
             //+ẩn form chi tiết
             //+load lại dữ liệu  
-        })
+
+
+        }.bind(this))
 
         //hiển thị 1 bản ghi chi tiết khi nhấn đúp chuột vào 1 bản ghi trên danh sách dữ liệu
         $('table tbody').on('dblclick', 'tr', function () {
-            //dialodDetail.dialog('open');
+            me.FormMode = 'Edit';
+            //Lấy khóa chính của bản ghi:
+            var recordId = $(this).data('recordId');
+            console.log(recordId);
+            //gọi service lấy thông tin chi tiết qua Id:
+            $.ajax({
+                url: me.host + me.apiRouter + `/${recordId}`,
+                method: "GET",
+            }).done(function (res) {
+                //Bindding dữ liệu lên form chi tiết 
+
+                // lấy tất cả các control nhập liệu
+                var inputs = $('input[fieldName], select[fieldName]');
+                var entity = {};
+                $.each(inputs, function (index, input) {
+                    var propertyName = $(this).attr('fieldname');
+                    var value = res[propertyName];
+                    $(this).val(value);
+                    //Check với trường hợp input là radio, thì chỉ lấy value của input có attribute checked:
+                    //if ($(this).attr('type') == "radio") {
+                    //    if (this.checked) {
+                    //        entity[propertyName] = value;
+                    //    }
+                    //} else {
+                    //    entity[propertyName] = value;
+                    //}
+                })
+            }).fail(function (res) {
+
+            })
+
+            $('#dialog').css('display', 'block');
         })
 
 
@@ -92,6 +165,8 @@ class BaseJS {
          * validate bắt buộc nhập
          * Created: HTTRANG(31/12/2020)
          * */
+
+
         $('input[required]').blur(function () {
             //kiểm tra dữ liệu đã nhập, nếu bỏ trống thì cảnh báo:
             var value = $(this).val();
@@ -107,6 +182,7 @@ class BaseJS {
             }
 
         })
+
         /**---------------
         * validate email đúng định dạng
         * Created: HTTRANG(31/12/2020)
@@ -122,23 +198,26 @@ class BaseJS {
                 $(this).removeClass('border-red');
             }
         })
-    }
 
+    }
     /**
      * load dữ liệu
      * createBy: HTTRANG
      * */
     loadData() {
+        $('table tbody').empty();
+        var me = this;
         try {
             var colums = $('table thead th')
             var getDataUrl = this.getDataUrl;
 
             $.ajax({
-                url: getDataUrl,
+                url: me.host + me.apiRouter,
                 method: "GET",
             }).done(function (res) {
                 $.each(res, function (index, obj) {
                     var tr = $(`<tr></tr>`);
+                    $(tr).data("recordId", obj.CustomerId);
                     //lấy thông tin dữ liệu sẽ map tương ứng với các cột
                     $.each(colums, function (index, th) {
                         var td = $(`<td><div><span></span></div></td>`)

@@ -5,7 +5,7 @@
     //    fluid: true,
     //    minWidth: 700,
     //    resizable: true,
-    //    positon: ({ my: "center", at: "center", of: windown }),
+    //    positon: ({ my: "center", at: "center", of: window }),
     //    modal: true,
     //});
 });
@@ -19,8 +19,10 @@ class CustomerJS extends BaseJS {
         super();
     }
 
-    setDataUrl() {
-        this.getDataUrl = "http://api.manhnv.net/api/customers";
+    setApiRouter() {
+        this.apiRouter = "/api/customers";
     }
+
+   
 }
 
