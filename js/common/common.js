@@ -20,6 +20,7 @@ function formatDate(date) {
 
 }
 
+
 /**---------------
  * format lương
  * @param {number} money kiểu number

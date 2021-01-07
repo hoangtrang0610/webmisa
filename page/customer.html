@@ -158,7 +158,7 @@
                         <div class="m-row">
                             <div class="m-lable">Nhóm khách hàng</div>
                             <div class="m-control">
-                                <select id="cbxCustomerGroup" fieldname="CustomerGroup">
+                                <select  id="cbxCustomerGroup" fieldName="CustomerGroupName" fieldValue="CustomerGroupId" api="/api/customergroups">
                                 </select>
                             </div>
                         </div>
@@ -177,11 +177,11 @@
                     <div class="dialog-infor_content-left">
                         <div class="m-row">
                             <div class="m-lable">Email</div>
-                            <div class="m-control"><input type="email" id="txtEmail" fieldname="Email" placeholder="example@domain.com" required/></div>
+                            <div class="m-control"><input type="email" id="txtEmail" fieldname="Email" placeholder="example@domain.com"/></div>
                         </div>
                         <div class="m-row">
                             <div class="m-lable">Tên công ty</div>
-                            <div class="m-control"><input type="text" fieldname="CompanyName" required /></div>
+                            <div class="m-control"><input type="text" fieldname="CompanyName" /></div>
                         </div>
                     </div>
                     <div class="dialog-infor_content-right">
@@ -191,7 +191,7 @@
                         </div>
                         <div class="m-row">
                             <div class="m-lable">Mã số thuế</div>
-                            <div class="m-control"><input type="text" id="txtMemberCardCode" fieldname="MemberCardCode" placeholder="Mã số thuế của công ty" required/></div>
+                            <div class="m-control"><input type="text" id="txtCompanyTaxCode" fieldname="CompanyTaxCode" placeholder="Mã số thuế của công ty"/></div>
                         </div>
                     </div>
 

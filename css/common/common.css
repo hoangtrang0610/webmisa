@@ -52,6 +52,11 @@ input.border-red{
     animation: spin 2s linear infinite;
 }
 
+
+.row-selected {
+    background-color: #70ad9859;
+}
+
 @keyframes spin{
     0%{
         transform: rotate(0deg);
